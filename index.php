@@ -57,10 +57,10 @@ on('*', '/', function (){
  * render the error page, and send HTTP status code too.
  */
 error(404, function (){
-	render('index_error', array('message' => 'Page not found.'));
+	render('error', array('message' => 'Page not found.'));
 });
 error(500, function (){
-	render('index_error', array('message' => 'Internal error.'));
+	render('error', array('message' => 'Internal error.'));
 });
 /**
  * start the main process.

@@ -1,1 +1,1 @@
-        <p><span>Name:</span> <span><?php echo $contact->name?></span></p>        <p><span>Email:</span> <span><?php echo $contact->email?></span></p>            
+        <h2 >View Contact #<?php echo $contact->id?></h2>		<p><span>Name:</span> <span><?php echo $contact->name?></span></p>        <p><span>Email:</span> <span><?php echo $contact->email?></span></p>		<h2 ><a href="/contact/update/id/<?php echo $contact->id?>">EDIT</a> this Contact</h2>		         
