@@ -2,15 +2,35 @@
 require_once ('lib/dispatch/src/dispatch.php');
 require_once ("lib/idiorm/idiorm.php");
 require_once ("lib/helper.php");
-
+/**
+ * add error handles for error code.
+ * render the error page, and send HTTP status code too.
+ */
+error_reporting (0);
+error(404, function (){
+  render('error', array('message' => 'Page not found.'));
+});
+error(500, function (){
+  render('error', array('message' => 'Internal error.'));
+});
+/**
+ * set error handler and exception handle to trgger the defind error callback.
+ */
+set_error_handler(function ($errno, $errstr, $file, $line){
+  error(500, $errstr. ' in file: '. $file. ' on line'. $line. ' error number:'. $errno);
+});
+set_exception_handler(function ($e){
+	error(500, $e->getMessage());
+});
 config(array(
-	//'dispatch.url': 'http://tinymvc.git.vbox', 
-	//'dispatch.router' => 'index.php',
-	'dispatch.controllers' => 'controllers/',
-	'dispatch.views' => 'views',
-	'dispatch.models' => 'models/',
-	'dispatch.db' => 'sqlite:./demo.sqlite',
-	'dispatch.default_route' => '/contact/index'
+  //'dispatch.url': 'http://tinymvc.git.vbox', 
+  //'dispatch.router' => 'index.php',
+  'dispatch.controllers' => 'controllers/',
+  'dispatch.views' => 'views',
+  'dispatch.models' => 'models/',
+  'dispatch.db' => 'sqlite:./demo.sqlite',
+  'dispatch.default_route' => '/contact/index',
+  //'dispatch.flash_cookie' => '_F',
 ));
 /**
  * configure the database, if no need just comment this line.
@@ -34,6 +54,7 @@ on('*', '/f/:func(.*)', function ($func){
  * will trigger error if controller not found or the action can not callable.
  */
 on('*', '/:controller/:action(.*)', function ($controller, $action) {
+  
   initparams("/$controller/$action");
   $controller.='Controller';
   $callback = array(new $controller,$action);
@@ -51,16 +72,6 @@ on('*', '/:controller', function ($controller){
  */
 on('*', '/', function (){
   redirect(($route = config('dispatch.default_route')) ? $route : '/index/index');
-});
-/**
- * add error handles for error code.
- * render the error page, and send HTTP status code too.
- */
-error(404, function (){
-	render('error', array('message' => 'Page not found.'));
-});
-error(500, function (){
-	render('error', array('message' => 'Internal error.'));
 });
 /**
  * start the main process.

@@ -36,12 +36,13 @@ function path() {
  */
 function initparams($prifix='') {
   // init TEST params
-  params(request_body());
+  if (!(in_array($_SERVER['REQUEST_METHOD'], array('GET', 'POST'))))
+    params(request_body());
   // init other params from url, "/:controller/:action/parm1/value1/param2/value2"
   // can add parm1=>value1 and parm2=>value2 into the params Array.
   $values = array();
   $key = '';
-  foreach(split('/', trim(str_replace($prifix, '', path()), '/')) as $i=>$value)
+  foreach(explode('/', trim(str_replace($prifix, '', path()), '/')) as $i=>$value)
 	if ($i%2) $values[$key] = $value; else $key = $value;
   params($values);
   
