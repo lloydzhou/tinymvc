@@ -1,0 +1,6 @@
+[submodule "lib/dispatch"]
+	path = lib/dispatch
+	url = https://github.com/noodlehaus/dispatch.git
+[submodule "lib/idiorm"]
+	path = lib/idiorm
+	url = https://github.com/j4mie/idiorm.git
