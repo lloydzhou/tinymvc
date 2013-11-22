@@ -5,9 +5,11 @@
  * and set models path buy using config('dispatch.model', 'models');
  */
 function __autoload($classname) {
-	if (file_exists($controller = config('dispatch.controllers'). $classname .".php"))
+	if (file_exists($lib = 'lib'.DIRECTORY_SEPARATOR. $classname .".php"))
+		require_once($lib);
+	elseif (file_exists($controller = trim(config('dispatch.controllers')). DIRECTORY_SEPARATOR.$classname .".php"))
 		require_once($controller);
-	elseif (file_exists($model = config('dispatch.models'). $classname .".php"))
+	elseif (file_exists($model = trim(config('dispatch.models')). DIRECTORY_SEPARATOR. $classname .".php"))
 		require_once($model);
     if (!class_exists($classname, false)) {
         error(500, "Unable to load class: $classname");

@@ -52,5 +52,9 @@ on('*', '/:controller', function ($controller){
 on('*', '/', function (){
   redirect(($route = config('dispatch.default_route')) ? $route : '/index/index');
 });
+
+/**
+ * start the main process.
+ */
 dispatch();
 ?>
