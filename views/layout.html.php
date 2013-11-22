@@ -1,0 +1,1 @@
+<html>    <head>        <title>Idiorm Demo</title>    </head>    <body>		<?php echo content()?>    </body></html>

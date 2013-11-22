@@ -1,0 +1,1 @@
+        <form method="post" action="">            <h2>Add Contact</h2>            <p><label for="name">Name:</label> <input type="text" name="name" /></p>            <p><label for="email">Email:</label> <input type="email" name="email" /></p>            <input type="submit" value="Create" />        </form>
