@@ -53,8 +53,8 @@ on('*', '/', function (){
   redirect(($route = config('dispatch.default_route')) ? $route : '/index/index');
 });
 /**
- *
- *
+ * add error handles for error code.
+ * render the error page, and send HTTP status code too.
  */
 error(404, function (){
 	render('index_error', array('message' => 'Page not found.'));
