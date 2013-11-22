@@ -1,6 +1,6 @@
 <?php 
-require_once ('lib/dispatch.php');
-require_once ("lib/idiorm.php");
+require_once ('lib/dispatch/src/dispatch.php');
+require_once ("lib/idiorm/idiorm.php");
 require_once ("lib/helper.php");
 
 config(array(
