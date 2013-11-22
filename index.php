@@ -37,7 +37,7 @@ on('*', '/:controller/:action(.*)', function ($controller, $action) {
   initparams("/$controller/$action");
   $controller.='Controller';
   $callback = array(new $controller,$action);
-  if (!is_callable($callback)) error('404', 'Page not found');
+  if (!is_callable($callback)) error(404, 'Page not found');
   call_user_func_array(array(new $controller,$action), params());
 });
 /**
@@ -52,7 +52,16 @@ on('*', '/:controller', function ($controller){
 on('*', '/', function (){
   redirect(($route = config('dispatch.default_route')) ? $route : '/index/index');
 });
-
+/**
+ *
+ *
+ */
+error(404, function (){
+	render('index_error', array('message' => 'Page not found.'));
+});
+error(500, function (){
+	render('index_error', array('message' => 'Internal error.'));
+});
 /**
  * start the main process.
  */

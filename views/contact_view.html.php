@@ -1,0 +1,1 @@
+        <p><span>Name:</span> <span><?php echo $contact->name?></span></p>        <p><span>Email:</span> <span><?php echo $contact->email?></span></p>            
