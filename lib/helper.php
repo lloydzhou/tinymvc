@@ -44,48 +44,4 @@ function initparams($prifix='') {
   params($values);
   
 }
-class Model {
 
-	public $table;
-	public $orm = null;
-
-	public function __construct($tableName, $data = null) {
-		$this->table = $tableName;
-		$this->orm = ORM::for_table($tableName)->create($data);
-	}
-	public function __call($name, $arguments)
-	{
-		return call_user_func_array(array($this->orm, $name), $arguments);
-	}
-	public function __get($name)
-	{
-		return call_user_func(array($this->orm, '__get'), $name);
-	}
-	public function __set($name, $value)
-	{
-		return call_user_func(array($this->orm, '__set'), $name, $value);
-	}
-	public function insert($data = array())
-	{
-		return $this->_save($this->orm, $data);
-	}
-	public function update($data = array())
-	{
-		return $this->_save($this->orm, $data);
-	}
-	public function find($id = null)
-	{
-		$this->orm = ORM::for_table($this->table)->find_one($id);
-		return $this;
-	}
-	public function findAll()
-	{
-		return ORM::for_table($this->table)->find_many();
-	}
-	protected function _save($orm, $data)
-	{
-		foreach($data as $key => $value)
-			$orm->$key = $value;
-		return $orm->save();
-	}
-}
