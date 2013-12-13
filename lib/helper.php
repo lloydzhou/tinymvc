@@ -16,22 +16,6 @@ function __autoload($classname) {
     }
 }
 /**
- * helper function to get the pathinfo.
- */
-function path() {
-  static $path;
-  if (!$path) {
-    $path = parse_url($path ? $path : $_SERVER['REQUEST_URI'], PHP_URL_PATH);
-    $root = config('dispatch.router');
-    $base = site(true);
-    if ($base !== null)
-      $path = preg_replace('@^'.preg_quote($base).'@', '', $path);
-    if ($root)
-      $path = preg_replace('@^/?'.preg_quote(trim($root, '/')).'@i', '', $path);
-  }
-  return $path;
-}
-/**
  * @param string $prifix optional, for remove the controller and action name 
  */
 function initparams($prifix='') {

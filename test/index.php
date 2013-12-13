@@ -1,7 +1,14 @@
 <?php 
 class Base {
+	public $data = array();
 	public function __construct($config = array()) {
 		foreach($config as $key => $val) $this->$key = $val;
+	}
+	public function __set($var, $val) {
+		$this->data[$var] = $val;
+	}
+	public function __get($var) {
+		return $this->data[$var] ? : null;
 	}
 }
 class Expressions extends Base {
@@ -182,3 +189,15 @@ $tbl->order = 'by id asc';
 var_dump($tbl->find());
 $tbl->insert(array('id' => 12, 'col' => 100));
 foreach($tbl->findAll(true) as $t) var_dump($t);
+
+
+try
+{
+    $db = new PDO('sqlite::memory');
+    echo "SQLite created in memory.";
+
+}
+catch(PDOException $e)
+{
+    echo $e->getMessage();
+}
