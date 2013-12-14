@@ -12,12 +12,19 @@ require_once ("lib/microtpl/MicroTpl.php");
  * add error handles for error code.
  * render the error page, and send HTTP status code too.
  */
-error_reporting (0);
+//error_reporting (0);
+/**
+ * helper function to render tamplate using MicroTpl engine.
+ */
+function t($view, $locals = array(), $layout = 'layout') {
+	MicroTpl::render(config('dispatch.views') . DIRECTORY_SEPARATOR . $view. config('dispatch.views.stuff'), 
+		$locals, config('dispatch.views') . DIRECTORY_SEPARATOR . $layout. config('dispatch.views.stuff'));
+}
 error(404, function (){
-  render('error', array('message' => 'Page not found.'));
+  t('error.html.php', array('message' => 'Page not found.'), 'layout');
 });
 error(500, function (){
-  render('error', array('message' => 'Internal error.'));
+  t('error', array('message' => 'Internal error.'), 'layout');
 });
 /**
  * set error handler and exception handle to trgger the defind error callback.
@@ -50,6 +57,7 @@ config(array(
   //'dispatch.router' => 'index.php',
   'dispatch.controllers' => 'controllers/',
   'dispatch.views' => 'views',
+  'dispatch.views.stuff' => '.html',
   'dispatch.models' => 'models/',
   'dispatch.db' => 'sqlite:./demo.sqlite',
   'dispatch.default_route' => '/contact/index',
