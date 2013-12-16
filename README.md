@@ -1,4 +1,4 @@
 tinymvc
 =======
 
-tiny mvc framework based on "dispatch" and "idiorm"
+tiny mvc framework based on "dispatch", "activerecord" and "MicroTpl"
