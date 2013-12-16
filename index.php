@@ -21,16 +21,6 @@ function __autoload($classname) {
  * you can using config file like "config.ini".
  * @see more detail on "https://github.com/noodlehaus/dispatch"
  */
-(new WebApplication(array(
-  //'dispatch.url': 'http://tinymvc.git.vbox', 
-  //'dispatch.router' => 'index.php',
-  'dispatch.controllers' => 'controllers/',
-  'dispatch.views' => 'views',
-  'dispatch.views.stuff' => '.html',
-  'dispatch.models' => 'models/',
-  'dispatch.db' => 'sqlite:./demo.sqlite',
-  'dispatch.default_route' => '/contact/index',
-  //'dispatch.flash_cookie' => '_F',
-)))->run();
+(new WebApplication('config.ini'))->run();
 
 ?>

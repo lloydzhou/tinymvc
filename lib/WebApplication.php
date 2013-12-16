@@ -41,7 +41,8 @@ function initparams($prifix='') {
  */
 class WebApplication {
 	public function __construct($config = 'config.ini') {
-		config($config);
+		if (is_string($config)) config('source', $config);
+		else if (is_array($config)) config($config);
 		$this->setErrorHandler();
 		$this->setDB();
 		$this->setRoutes();
