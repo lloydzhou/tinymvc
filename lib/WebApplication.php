@@ -14,7 +14,7 @@ require_once ("microtpl/MicroTpl.php");
  */
 function t($view, $locals = array(), $layout = 'layout') {
 	MicroTpl::render(config('dispatch.views') . DIRECTORY_SEPARATOR . $view. config('dispatch.views.stuff'), 
-	$locals, config('dispatch.views') . DIRECTORY_SEPARATOR . $layout. config('dispatch.views.stuff'));
+		$locals, config('dispatch.views') . DIRECTORY_SEPARATOR . $layout. config('dispatch.views.stuff'));
 }
 /**
  * @param string $prifix optional, for remove the controller and action name 
@@ -22,14 +22,14 @@ function t($view, $locals = array(), $layout = 'layout') {
 function initparams($prifix='') {
 	// init RESTful params
 	if (!(in_array($_SERVER['REQUEST_METHOD'], array('GET', 'POST'))))
-    params(request_body());
+		params(request_body());
 	// init other params from url, "/:controller/:action/parm1/value1/param2/value2"
 	// can add parm1=>value1 and parm2=>value2 into the params Array.
-	$values = array();
-	$key = '';
+	$values = array(); $key = '';
 	foreach(explode('/', trim(str_replace($prifix, '', path()), '/')) as $i=>$value)
-	if ($i%2) $values[$key] = $value; else $key = $value;
-	params($values);
+		if ($i%2) $values[$key] = $value; else $key = $value;
+			params($values);
+
 }
 
 /**
@@ -94,9 +94,8 @@ class WebApplication {
 			
 			initparams("/$controller/$action");
 			$controller.='Controller';
-			$callback = array(new $controller,$action);
-			if (!is_callable($callback)) error(404, 'Page not found');
-			call_user_func_array(array(new $controller,$action), params());
+			if (!is_callable($callback = array(new $controller,$action))) error(404, 'Page not found');
+				call_user_func_array($callback, params());
 		});
 		/**
 		 * redirect the request "/controller" to "/controller/index".
@@ -108,7 +107,7 @@ class WebApplication {
 		 * redirect the request "/" to "/index/index".
 		 */
 		on('*', '/', function (){
-			redirect(($route = config('dispatch.default_route')) ? $route : '/index/index');
+			redirect(($route = config('dispatch.route.default')) ? $route : '/index/index');
 		});		
 	}
 	/**

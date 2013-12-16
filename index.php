@@ -7,11 +7,11 @@ error_reporting (0);
  */
 function __autoload($classname) {
 	if (file_exists($lib = 'lib'.DIRECTORY_SEPARATOR. $classname .".php"))
-	require_once($lib);
+		require_once($lib);
 	elseif (file_exists($controller = trim(config('dispatch.controllers')). DIRECTORY_SEPARATOR.$classname .".php"))
-	require_once($controller);
+		require_once($controller);
 	elseif (file_exists($model = trim(config('dispatch.models')). DIRECTORY_SEPARATOR. $classname .".php"))
-	require_once($model);
+		require_once($model);
     if (!class_exists($classname, false)) {
         error(500, "Unable to load class: $classname");
     }
