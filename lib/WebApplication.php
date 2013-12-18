@@ -31,7 +31,9 @@ function initparams($prifix='') {
 			params($values);
 
 }
-
+function createurl($route, $param = array(), $abslute = false) {
+	return str_replace(array('//', '&', '='), '/', site(!$abslute). $route. '/'. http_build_query($param));
+}
 /**
  * main class.
  * 1. set error hander and exception hander.
@@ -52,27 +54,19 @@ class WebApplication {
 		 * add error handles for error code.
 		 * render the error page, and send HTTP status code too.
 		 */
-		error(404, function (){
-			t('error', array('message' => 'Page not found.'));
-		});
-		error(500, function (){
-			t('error', array('message' => 'Internal error.'));
-		});
+		error(404, array($this, 'error404'));
+		error(500, array($this, 'error500'));
 		/**
 		 * set error handler and exception handle to trgger the defind error callback.
 		 */
-		set_error_handler(function ($errno, $errstr, $file, $line){
-			error(500, $errstr. ' in file: '. $file. ' on line'. $line. ' error number:'. $errno);
-		});
-		set_exception_handler(function ($e){
-			error(500, $e->getMessage());
-		});		
+		set_error_handler(array($this, 'errorhander'));
+		set_exception_handler(array($this, 'exceptionhander'));		
 	}
 	/**
 	 * configure the database, if no need just comment this line.
 	 */	
 	public function setDB() {
-		if ($db = config('dispatch.db')) ActiveRecord::setDb(new PDO($db));		
+		if ($db = config('dispatch.db')) ActiveRecord::setDb(new PDO($db, config('dispatch.db.username'), config('dispatch.db.password')));		
 	}
 	public function setRoutes() {
 		/**
@@ -90,31 +84,48 @@ class WebApplication {
 		 * dispatch the request to target action.
 		 * will trigger error if controller not found or the action can not callable.
 		 */
-		on('*', '/:controller/:action(.*)', function ($controller, $action) {
-			
-			initparams("/$controller/$action");
-			$controller.='Controller';
-			if (!is_callable($callback = array(new $controller,$action))) error(404, 'Page not found');
-				call_user_func_array($callback, params());
-		});
+		on('*', '/:controller/:action(.*)', array($this, 'main'));
 		/**
 		 * redirect the request "/controller" to "/controller/index".
 		 */
-		on('*', '/:controller', function ($controller){
-			redirect("/$controller/index");
-		});
+		on('*', '/:controller', array($this, 'redirectindex'));
 		/**
 		 * redirect the request "/" to "/index/index".
 		 */
-		on('*', '/', function (){
-			redirect(($route = config('dispatch.route.default')) ? $route : '/index/index');
-		});		
+		on('*', '/', array($this, 'redirect'));		
 	}
 	/**
 	 * start the main process.
 	 */	
 	public function run() {
 		dispatch();
+	}
+	/**
+	 * helper functions
+	 */
+	function error404 () {
+		t('error', array('message' => 'Page not found.'));
+	}
+	function error500() {
+		t('error', array('message' => 'Internal error.'));
+	}
+	function errorhander($errno, $errstr, $file, $line) {
+		error(500, $errstr. ' in file: '. $file. ' on line'. $line. ' error number:'. $errno);
+	}
+	function exceptionhander($e) {
+		error(500, $e->getMessage());
+	}
+	function main($controller, $action) {
+		initparams("/$controller/$action");
+		$controller.='Controller';
+		if (!is_callable($callback = array(new $controller,$action))) error(404, 'Page not found');
+		call_user_func_array($callback, params());
+	}
+	function redirectindex($controller){
+		redirect(site(true). "/$controller/index");
+	}
+	function redirect(){
+		redirect(site(true). (($route = config('dispatch.route.default')) ? $route : '/index/index'));
 	}
 }
 ?>

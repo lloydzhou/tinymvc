@@ -1,5 +1,5 @@
 <?php
-error_reporting (0);
+//error_reporting (0);
 /**
  * helper function to auto load controllers and models.
  * you can set controllers path buy using config('dispatch.controller', 'controllers');
@@ -21,6 +21,7 @@ function __autoload($classname) {
  * you can using config file like "config.ini".
  * @see more detail on "https://github.com/noodlehaus/dispatch"
  */
-(new WebApplication('config.ini'))->run();
+$app = new WebApplication('config.ini');
+$app->run();
 
 ?>

@@ -4,3 +4,6 @@
 [submodule "microtpl"]
 	path = lib/microtpl
 	url = https://github.com/lloydzhou/microtpl.git
+[submodule "dispatch"]
+	path = lib/dispatch
+	url = https://github.com/lloydzhou/dispatch.git

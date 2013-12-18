@@ -1,6 +1,6 @@
 <div>
             <h2 tal:content="$message">Message</h2>
-			<p>GO back to <a href="/">Home</a> page</p>
-			<p>If you do not create the database, just go to <a href="/contact/initTable">init cotect table</a> page, to <a href="/contact/initTable">create</a> table.</p>
-			<p>If you do not create the database, just go to <a href="/user/initTable">init user table</a> page, to <a href="/user/initTable">create</a> table.</p>
+			<p>GO back to <a tal:href="createurl('/')">Home</a> page</p>
+			<p>If you do not create the database, just go to <a tal:href="createurl('/contact/initTable')">init cotect table</a> page, to <a tal:href="createurl('/contact/initTable')">create</a> table.</p>
+			<p>If you do not create the database, just go to <a tal:href="createurl('/user/initTable')">init user table</a> page, to <a tal:href="createurl('/user/initTable')">create</a> table.</p>
 </div>
