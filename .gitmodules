@@ -1,3 +1,6 @@
-[submodule "lib/dispatch"]
-	path = lib/dispatch
-	url = https://github.com/noodlehaus/dispatch.git
+[submodule "ar"]
+	path = lib/ar
+	url = https://github.com/lloydzhou/activerecord.git
+[submodule "microtpl"]
+	path = lib/microtpl
+	url = https://github.com/lloydzhou/microtpl.git
